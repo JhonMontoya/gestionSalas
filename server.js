@@ -3,9 +3,10 @@ const dotnev = require('dotenv');
 const cors = require ('cors');
 
 const http = require('http');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
 const conectDB = require('./config/db');
+
 const routsUser = require('./routes/usuario');
 
 dotnev.config();
@@ -15,9 +16,10 @@ const server = http.createServer(app);
 
 conectDB();
 
-app.use('/usuarios', routsUser, cors());
-app.use(bodyParser.json())
-
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended : true}));
+app.use('/usuarios', routsUser);
 
 const PORT = process.env.PORT;
 
