@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ReservaForm from "./reservaForm";
+import ReservaForm from "./ReservaForm";
 
 const User = () => {
   const [salas, setSalas] = useState([]);

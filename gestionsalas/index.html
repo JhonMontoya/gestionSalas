@@ -3,21 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulario - Fondo de Madera</title>
+  <title>Reserva de Salas</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="./index.css"> <!-- Enlace al archivo CSS -->
+  <link rel="stylesheet" href="./index.css">
 </head>
 <body>
   <div class="container py-5">
-    <div class="card mx-auto shadow-lg">
+    <!-- Login -->
+    <div id="loginSection" class="card mx-auto shadow-lg mb-5">
       <div class="card-body">
-        <h1 class="card-title text-center text-madera mb-4">Informacion para Reserva de Salon</h1>
-        <form>
+        <h1 class="card-title text-center mb-4">Iniciar Sesión</h1>
+        <form id="loginForm">
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="loginEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="loginEmail" placeholder="Ingresa tu email" required>
+          </div>
+
           <!-- Nombre -->
           <div class="mb-3">
+            <label for="loginNombre" class="form-label">Nombre Completo</label>
+            <input type="text" class="form-control" id="loginNombre" placeholder="Ingresa tu nombre completo" required>
+          </div>
+
+          <!-- Botón de Inicio de Sesión -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Formulario de Reserva -->
+    <div id="reservaSection" class="card mx-auto shadow-lg mb-5 d-none">
+      <div class="card-body">
+        <h1 class="card-title text-center mb-4">Reservar Sala</h1>
+        <form id="reservaForm">
+          <!-- Nombre (Autocompletado) -->
+          <div class="mb-3">
             <label for="nombre" class="form-label">Nombre completo</label>
-            <input type="text" class="form-control" id="nombre" placeholder="Escribe tu nombre completo" required>
+            <input type="text" class="form-control" id="nombre" disabled>
           </div>
 
           <!-- Celular -->
@@ -32,58 +58,130 @@
             <input type="email" class="form-control" id="email" placeholder="Escribe tu email" required>
           </div>
 
-          <!-- Servicio -->
+          <!-- Selección de Sala -->
           <div class="mb-3">
-            <label for="servicio" class="form-label">Servicio</label>
-            <select class="form-select" id="servicio" required>
-              <option value="">Seleccione una opción</option>
-              <option value="servicio1">Reunion de Trabajo</option>
-              <option value="servicio2">Reunion de Fiesta</option>
-              <option value="servicio3">Conferencias</option>
+            <label for="sala" class="form-label">Sala</label>
+            <select class="form-select" id="sala" required>
+              <!-- Opciones cargadas dinámicamente -->
             </select>
           </div>
 
-          <!-- Sede -->
+          <!-- Fecha -->
           <div class="mb-3">
-            <label for="sede" class="form-label">Sede</label>
-            <select class="form-select" id="sede" required>
-              <option value="">Seleccione una opción</option>
-              <option value="sede1">Norte / 3N</option>
-              <option value="sede2">Centro / 5°</option>
-              <option value="sede3">Sur / 80-Ingenio</option>
-            </select>
+            <label for="fecha" class="form-label">Fecha</label>
+            <input type="date" class="form-control" id="fecha" required>
           </div>
 
-          <!-- Fecha deseada -->
+          <!-- Hora -->
           <div class="mb-3">
-            <label for="fecha" class="form-label">Fecha deseada (opcional)</label>
-            <input type="date" class="form-control" id="fecha">
-          </div>
-
-          <!-- Observaciones -->
-          <div class="mb-3">
-            <label for="observaciones" class="form-label">Observaciones</label>
-            <textarea class="form-control" id="observaciones" rows="3" placeholder="Escribe tus observaciones"></textarea>
-          </div>
-
-          <!-- Checkbox -->
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="politica" required>
-            <label class="form-check-label" for="politica">
-              He leído y acepto el tratamiento de datos.
-            </label>
+            <label for="hora" class="form-label">Hora</label>
+            <input type="time" class="form-control" id="hora" required>
           </div>
 
           <!-- Botón -->
           <div class="d-grid">
-            <button type="submit" class="btn btn-madera">Enviar</button>
+            <button type="submit" class="btn btn-primary">Reservar Sala</button>
           </div>
         </form>
       </div>
     </div>
+
+    <!-- Lista de Salas -->
+    <div id="listaSection" class="card mx-auto shadow-lg d-none">
+      <div class="card-body">
+        <h2 class="card-title text-center mb-4">Salas Disponibles</h2>
+        <ul id="listaSalas" class="list-group">
+          <!-- Salas cargadas dinámicamente -->
+        </ul>
+      </div>
+    </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js"></script>
+  <script>
+    // Variables globales
+    const salas = [
+      { id: 1, nombre: 'Sala A', capacidad: 80, ubicacion: 'Norte', estado: 'activa', reservas: [] },
+      { id: 2, nombre: 'Sala B', capacidad: 150, ubicacion: 'Centro', estado: 'activa', reservas: [] },
+      { id: 3, nombre: 'Sala C', capacidad: 180, ubicacion: 'Sur', estado: 'activa', reservas: [] }
+    ];
+
+    // Elementos del DOM
+    const loginForm = document.getElementById('loginForm');
+    const loginSection = document.getElementById('loginSection');
+    const reservaSection = document.getElementById('reservaSection');
+    const listaSection = document.getElementById('listaSection');
+    const reservaForm = document.getElementById('reservaForm');
+    const salaSelect = document.getElementById('sala');
+    const listaSalas = document.getElementById('listaSalas');
+
+    // Usuario actual
+    let usuarioActual = null;
+
+    // Cargar salas al inicio
+    function cargarSalas() {
+      salaSelect.innerHTML = '';
+      listaSalas.innerHTML = '';
+      salas.forEach(sala => {
+        const option = document.createElement('option');
+        option.value = sala.id;
+        option.textContent = `${sala.nombre} - Capacidad: ${sala.capacidad}`;
+        salaSelect.appendChild(option);
+
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.innerHTML = `
+          <div>
+            <strong>${sala.nombre}</strong> (Capacidad: ${sala.capacidad}, Ubicación: ${sala.ubicacion})
+            ${sala.reservas.map(r => `<br><em>Reservada el ${r.fecha} a las ${r.hora}</em>`).join('')}
+          </div>
+        `;
+        listaSalas.appendChild(li);
+      });
+    }
+
+    // Manejar inicio de sesión
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('loginEmail').value;
+      const nombre = document.getElementById('loginNombre').value;
+
+      // Guardar usuario actual
+      usuarioActual = { email, nombre };
+
+      // Mostrar nombre automáticamente en el formulario de reserva
+      document.getElementById('nombre').value = nombre;
+      document.getElementById('email').value = email;
+
+      // Ocultar sección de login y mostrar las demás
+      loginSection.classList.add('d-none');
+      reservaSection.classList.remove('d-none');
+      listaSection.classList.remove('d-none');
+
+      cargarSalas();
+    });
+
+    // Manejar envío del formulario de reserva
+    reservaForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const celular = document.getElementById('celular').value;
+      const salaId = parseInt(document.getElementById('sala').value);
+      const fecha = document.getElementById('fecha').value;
+      const hora = document.getElementById('hora').value;
+
+      const sala = salas.find(sala => sala.id === salaId);
+
+      if (!sala.reservas.some(reserva => reserva.fecha === fecha && reserva.hora === hora)) {
+        sala.reservas.push({ nombre: usuarioActual.nombre, celular, fecha, hora });
+        alert(`Reserva realizada: Sala ${sala.nombre}, el ${fecha} a las ${hora}.`);
+        cargarSalas();
+        reservaForm.reset();
+      } else {
+        alert('La sala ya está reservada en la fecha y hora seleccionadas.');
+      }
+    });
+  </script>
+  <script src="./script.js"></script>
 </body>
 </html>
