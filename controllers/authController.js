@@ -1,6 +1,6 @@
-import usua from "../gestionsalas/src/usua";
+import usuarios from "./usuario";
 import bcrypt from "bcryptjs";
-import { createAccessToken } from "../gestionsalas/src/libs/jwt";
+import { createAccessToken } from "../config/libs/jwt";
 
 export const register = async (req, res) => {
     const { email, password, username } = req.body;
