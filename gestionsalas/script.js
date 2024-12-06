@@ -22,6 +22,3 @@ setInterval(changeBackground, 5000);
 changeBackground();
 
 
-'https://images.pexels.com/photos/5875642/pexels-photo-5875642.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', // Imagen 1
-    'https://images.pexels.com/photos/19253501/pexels-photo-19253501/free-photo-of-madera-vintage-colegio-escuela.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', // Imagen 2
-    'https://images.pexels.com/photos/7234410/pexels-photo-7234410.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' // Imagen 3
