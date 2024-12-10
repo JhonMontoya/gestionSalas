@@ -7,15 +7,15 @@ const Login = ({ onLogin }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState(""); // Campo para nombre
-  const [nameUse, setNameUse] = useState("");
+  const [username, setUsername] = useState(""); // Nombre de usuario
   const [idNumber, setIdNumber] = useState(""); // Campo para cédula
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isRegistering) {
       if (password === confirmPassword) {
-        if (name && idNumber) {
-          alert(`¡Usuario registrado exitosamente!\nNombre: ${name}\nCédula: ${idNumber}`);
+        if (name && idNumber && username) {
+          alert(`¡Usuario registrado exitosamente!\nNombre: ${name}\nCédula: ${idNumber}\nUsuario: ${username}`);
           setIsRegistering(false);
         } else {
           alert("Por favor, complete todos los campos.");
@@ -24,7 +24,7 @@ const Login = ({ onLogin }) => {
         alert("Las contraseñas no coinciden.");
       }
     } else {
-      onLogin(nameUse, password);
+      onLogin(username, password);
     }
   };
 
@@ -42,19 +42,19 @@ const Login = ({ onLogin }) => {
               required
             />
             <input
-                type="text"
-                placeholder="Nombre de usuario"
-                value={nameUse}
-                onChange={(e) => setNameUse(e.target.value)}
-                required
+              type="text"
+              placeholder="Nombre de usuario"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
             />
             <input
-          type="email"
-          placeholder="Correo electrónico"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+              type="email"
+              placeholder="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
             <input
               type="text"
               placeholder="Cédula"
@@ -64,13 +64,15 @@ const Login = ({ onLogin }) => {
             />
           </>
         )}
-        <input
+        {!isRegistering && (
+          <input
             type="text"
             placeholder="Nombre de usuario"
-            value={nameUse}
-            onChange={(e) => setNameUse(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
-        />
+          />
+        )}
         <input
           type="password"
           placeholder="Contraseña"
