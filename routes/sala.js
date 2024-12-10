@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const salaController = require('../controllers/salaController');
+const salaController = require('../controllers/sala');
 
 router.post('/', salaController.createSala);
 router.get('/', salaController.getSalas);
