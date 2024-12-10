@@ -8,6 +8,6 @@ router.post('/', salaController.createSala);
 router.get('/', salaController.getSalas);
 router.get('/:id', salaController.getSala);
 router.put('/:id', salaController.updateSala);
-// router.delete('/:id', salaController.deleteSala);
+router.delete('/:id', salaController.deleteSala);
 
 module.exports = router;

@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const conectDB = require('./config/db');
 
 const routsUser = require('./routes/usuario');
-const routRoom = require('./routes/sala');
+const routRoom = require('./routes/salaRouter');
 
 dotnev.config();
 

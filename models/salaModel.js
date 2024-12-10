@@ -4,24 +4,22 @@ const salaSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    minlength: 3, 
+    maxlength: 50, 
   },
   status: {
-    // type: Boolean,
-    // default: false, 
-    // required: true,
     type: String,
-    default: "Disponible",
     required: true,
   },
   location: {
     type: String,
     required: true,
   },
-  capacity:{
+  capacity: {
     type: Number,
     required: true,
-  }
-}, { versionKey: false }); 
+    min: 1, 
+  },
+}, { versionKey: false });
 
 module.exports = mongoose.model('Sala', salaSchema);
-
