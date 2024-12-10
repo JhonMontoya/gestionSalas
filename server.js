@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const conectDB = require('./config/db');
 
 const routsUser = require('./routes/usuario');
+const routRoom = require('./routes/salaRouter');
 
 dotnev.config();
 
@@ -20,6 +21,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true}));
 app.use('/usuarios', routsUser);
+app.use('/salas', routRoom);
 
 const PORT = process.env.PORT;
 
