@@ -4,12 +4,11 @@ import Login from "./login";
 export const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Simulación de autenticación
-  const handleLogin = (email, password) => {
-    if (email === "user@example.com" && password === "password123") {
+  const handleLogin = (nameUse, password) => {
+    if (nameUse === "obama" && password === "123") {
       setIsLoggedIn(true);
     } else {
-      alert("Invalid credentials");
+      alert("Credenciales inválidas.");
     }
   };
 
@@ -17,8 +16,8 @@ export const App = () => {
     <div>
       {isLoggedIn ? (
         <div>
-          <h1>Welcome!</h1>
-          <button onClick={() => setIsLoggedIn(false)}>Logout</button>
+          <h1>¡Bienvenido!</h1>
+          <button onClick={() => setIsLoggedIn(false)}>Cerrar sesión</button>
         </div>
       ) : (
         <Login onLogin={handleLogin} />
