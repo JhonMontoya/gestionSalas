@@ -19,10 +19,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     }
-});
+},{versionKey:false,});
 
 //Middleware
-userSchema.pre('save', async (next) =>{
+userSchema.pre('save', async function (next) {
 
     //Si la contraseña no ha sido modificada entonces no hace nada
     if(!this.isModified('password')) return next();
