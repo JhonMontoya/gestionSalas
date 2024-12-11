@@ -41,6 +41,7 @@ const createSala = async (req, res) => {
           status: req.body.status,
           location: req.body.location,
           capacity: req.body.capacity,
+          url: req.body.url,
       });
 
       await newSala.save();
@@ -69,6 +70,7 @@ const updateSala = async (req, res) => {
         sala.status = req.body.status;
       }
       sala.location = req.body.location || sala.location;
+      sala.url = req.body.url || sala.url;
   
       await sala.save();
       res.status(200).json({ mensaje: `${sala.name} actualizada correctamente` });

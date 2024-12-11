@@ -20,6 +20,10 @@ const salaSchema = new mongoose.Schema({
     required: true,
     min: 1, 
   },
+  url:{
+    type: String,
+    required: true,
+  },
 }, { versionKey: false });
 
 module.exports = mongoose.model('Sala', salaSchema);
