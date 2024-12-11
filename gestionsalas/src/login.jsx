@@ -42,9 +42,14 @@ const Login = ({ onLogin }) => {
           </p>
         </div>
         <div className="flex-items-center">
-        <button className="inicio-input" onClick={()=>setIsRegistering(!isRegistering)}>
-          Iniciar sesión o Registrarse
-          </button>
+        
+        <button
+          className="nav-button"
+          onClick={() => setIsRegistering(!isRegistering)}
+        >
+          {isRegistering ? "Iniciar sesión" : "Registrarse"}
+        </button>
+        
         </div>
       </nav>
       
