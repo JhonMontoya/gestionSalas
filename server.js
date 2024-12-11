@@ -1,30 +1,27 @@
-const express = require('express');
-const dotnev = require('dotenv');
-const cors = require ('cors');
+require('dotenv').config();  // Asegúrate de que dotenv esté al principio
 
+const express = require('express');
 const http = require('http');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const conectDB = require('./config/db');
-
 const routsUser = require('./routes/usuario');
 const routRoom = require('./routes/salaRouter');
-
-dotnev.config();
 
 const app = express();
 const server = http.createServer(app);
 
-conectDB();
+conectDB();  // Intenta conectar la base de datos
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended : true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/usuarios', routsUser);
 app.use('/salas', routRoom);
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;  // Si no está definida, usa 5000 por defecto
 
-server.listen(PORT, ()=>{
-    console.log(`El servidor esta corriendo en http://localhost:${PORT}`);
+server.listen(PORT, () => {
+    console.log(`El servidor está corriendo en http://localhost:${PORT}`);
 });
