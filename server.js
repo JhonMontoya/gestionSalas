@@ -1,4 +1,4 @@
-require('dotenv').config();  // Asegúrate de que dotenv esté al principio
+require('dotenv').config();  // Dotenv esté al principio
 
 const express = require('express');
 const http = require('http');
@@ -12,7 +12,7 @@ const routRoom = require('./routes/salaRouter');
 const app = express();
 const server = http.createServer(app);
 
-conectDB();  // Intenta conectar la base de datos
+conectDB();  // Conectar la base de datos
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/usuarios', routsUser);
 app.use('/salas', routRoom);
 
-const PORT = process.env.PORT || 5000;  // Si no está definida, usa 5000 por defecto
+const PORT = process.env.PORT || 5000;  // Usar 5000 por defecto
 
 server.listen(PORT, () => {
     console.log(`El servidor está corriendo en http://localhost:${PORT}`);
