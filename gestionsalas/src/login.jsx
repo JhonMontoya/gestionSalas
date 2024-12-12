@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./login.css";
-import logo from "./img/Logo.png"
+import logo from "./img/Logo.png";
+import fondo from "./img/2.jpg";
 
 const Login = ({ onLogin }) => {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -16,7 +17,12 @@ const Login = ({ onLogin }) => {
     if (isRegistering) {
       if (password === confirmPassword) {
         if (name && idNumber && username) {
-          alert(`¡Usuario registrado exitosamente!\nNombre: ${name}\nCédula: ${idNumber}\nUsuario: ${username}`);
+          alert(
+            `¡Usuario registrado exitosamente!
+            Nombre: ${name}
+            Cédula: ${idNumber}
+            Usuario: ${username}`
+          );
           setIsRegistering(false);
         } else {
           alert("Por favor, complete todos los campos.");
@@ -30,31 +36,11 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="page-container">
-      
-      <nav className="navbar">
-        <div className="logo">
-          <img src={logo} alt="logo" style={{width:45}}/>
-        </div>
-        <div className="search-container">
-          <p>
-            EVENTHUB
-          </p>
-        </div>
-        <div className="flex-items-center">
-        
-        <button
-          className="nav-button"
-          onClick={() => setIsRegistering(!isRegistering)}
-        >
-          {isRegistering ? "Iniciar sesión" : "Registrarse"}
-        </button>
-        
-        </div>
-      </nav>
-      
-      
+    <div className="page-container" style={{ backgroundImage: `url(${fondo})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="login-container">
+        <div className="top-left-corner">
+          <img src={logo} alt="logo" className="logo-img" />
+        </div>
         <h1>{isRegistering ? "Registro" : "Inicio de sesión"}</h1>
         <form onSubmit={handleSubmit}>
           {isRegistering && (
@@ -121,7 +107,7 @@ const Login = ({ onLogin }) => {
         <p>
           {isRegistering
             ? "¿Ya tienes una cuenta?"
-            : "¿No tienes una cuenta?"}{" "}
+            : "¿No tienes una cuenta?"} {" "}
           <span
             className="toggle-link"
             onClick={() => setIsRegistering(!isRegistering)}
@@ -129,7 +115,8 @@ const Login = ({ onLogin }) => {
             {isRegistering ? "Inicia sesión aquí" : "Regístrate aquí"}
           </span>
         </p>
-      </div><br />
+      </div>
+      <br />
       <footer className="footer">
         <h3>Nuestra información de contacto:</h3>
         <p>Teléfono: +57 123 456 7890</p>
