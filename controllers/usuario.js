@@ -30,7 +30,7 @@ const register = async (req, res) => {
             role,
             password: passwordHash
         })
-        res.send({ data: registerUser })
+        res.status(201).json({message: "Usuario registrado correctamente"});
     } catch (e) {
 
     }
@@ -41,8 +41,7 @@ const login = async (req, res) => {
         const usuario = await Users.findOne({ email })
 
         if (!usuario) {
-            res.status(404)
-            res.send({ error: "No se encontro el usuario" })
+            res.status(404).json({message: "No se encontró el usuario"});
         }
 
         const checkPassword = await compare(password, usuario.password)
@@ -54,10 +53,7 @@ const login = async (req, res) => {
             return
         }
         if (!checkPassword) {
-            res.status(409);
-            res.send({
-                error: "Contraseña incorrecta"
-            })
+            res.status(409).json({message: "Contraseña incorrecta"});
             return
         }
     } catch (e) {
