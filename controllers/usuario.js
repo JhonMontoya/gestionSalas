@@ -30,7 +30,7 @@ const register = async (req, res) => {
             role,
             password: passwordHash
         })
-        res.status(201).json({message: "Usuario registrado correctamente"});
+        res.status(201).json(registerUser);
     } catch (e) {
 
     }
@@ -46,10 +46,7 @@ const login = async (req, res) => {
 
         const checkPassword = await compare(password, usuario.password)
         if (checkPassword) {
-            res.send(
-                {
-                    data: usuario
-                })
+            res.status(200).json(usuario) 
             return
         }
         if (!checkPassword) {
