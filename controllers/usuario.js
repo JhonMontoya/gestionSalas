@@ -1,38 +1,73 @@
-const user = require('../models/usuario');
+const { encrypt, compare } = require('../helpers/handleBcrypt');
+const Users = require('../models/usuario');
 
-const getUsers = async(req, res) =>{
+
+const getUsers = async (req, res) => {
     try {
-        const usuarios = await user.find(); /*.*/
+        const usuarios = await Users.find(); /*.*/
         res.status(200).json(usuarios);
     } catch (error) {
-        res.status(500).json({error: 'Error  al obtener los usuarios'});
+        res.status(500).json({ error: 'Error  al obtener los usuarios' });
     }
 };
 
-const getUser = async(req, res) =>{
+const getUser = async (req, res) => {
     try {
-        const usuario = await user.findById(req.params.id); /*.*/
+        const usuario = await Users.findById(req.params.id); /*.*/
         res.status(200).json(usuario);
     } catch (error) {
-        res.status(500).json({error: 'Error  al obtener el usuario'});
+        res.status(500).json({ error: 'Error  al obtener el usuario' });
     }
 };
 
-const createUser = async(req, res) => {
+const register = async (req, res) => {
     try {
-        const usuario = new user(req.body);
-        await usuario.save();
-        res.status(201).json(usuario);
-    } catch (error) {
-        console.log(error);
-        res.status(400).json({error: "No se pudo crear el usuario"});
-    }
-};
+        const { name, email, role, password } = req.body
+        const passwordHash = await encrypt(password)
+        const registerUser = await Users.create({
+            name,
+            email,
+            role,
+            password: passwordHash
+        })
+        res.send({ data: registerUser })
+    } catch (e) {
 
-const updateUser = async(req, res) => {
+    }
+}
+const login = async (req, res) => {
     try {
-        const usuario = await user.findById(req.params.id);
-        if(!usuario) return res.status(404).json({error: "usuario no encontrado"});
+        const { email, password } = req.body
+        const usuario = await Users.findOne({ email })
+
+        if (!usuario) {
+            res.status(404)
+            res.send({ error: "No se encontro el usuario" })
+        }
+
+        const checkPassword = await compare(password, usuario.password)
+        if (checkPassword) {
+            res.send(
+                {
+                    data: usuario
+                })
+            return
+        }
+        if (!checkPassword) {
+            res.status(409);
+            res.send({
+                error: "Contraseña incorrecta"
+            })
+            return
+        }
+    } catch (e) {
+
+    }
+}
+const updateUser = async (req, res) => {
+    try {
+        const usuario = await Users.findById(req.params.id);
+        if (!usuario) return res.status(404).json({ error: "usuario no encontrado" });
 
         //incorporamos los para paremetros
         usuario.name = req.body.name || usuario.name;
@@ -43,31 +78,32 @@ const updateUser = async(req, res) => {
         req.body.password && (usuario.password = req.body.password);
 
         await usuario.save();
-        res.status(200).json({mensaje: `${usuario.name} actualizado correctamente`});
+        res.status(200).json({ mensaje: `${usuario.name} actualizado correctamente` });
     } catch (error) {
-        res.status(400).json({error: "El usuario no pudo ser actualizado"});
+        res.status(400).json({ error: "El usuario no pudo ser actualizado" });
     }
 };
 
-const deleteUser = async(req, res) => {
+const deleteUser = async (req, res) => {
     try {
-        const usuario = await user.findById(req.params.id);
-        if(!usuario) return res.status(404).json({mensaje: "Usuario no encontrado"});
+        const usuario = await Users.findById(req.params.id);
+        if (!usuario) return res.status(404).json({ mensaje: "Usuario no encontrado" });
 
         await usuario.deleteOne();
 
-        res.status(200).json({mensaje: `${usuario.name} eliminado correctamente`});
+        res.status(200).json({ mensaje: `${usuario.name} eliminado correctamente` });
     } catch (error) {
         console.log(error);
-        res.status(500).json({error: "Error al eliminar el usuario"});
-        
+        res.status(500).json({ error: "Error al eliminar el usuario" });
+
     }
 };
 
 module.exports = {
     getUsers,
     getUser,
-    createUser,
+    register,
+    login,
     updateUser,
     deleteUser,
 };
