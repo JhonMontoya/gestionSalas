@@ -9,6 +9,7 @@ const conectDB = require('./config/db');
 
 const routsUser = require('./routes/usuario');
 const routRoom = require('./routes/salaRouter');
+const routReserva = require("./routes/reserva");
 
 dotnev.config();
 
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true}));
 app.use('/usuarios', routsUser);
 app.use('/salas', routRoom);
+app.use("/reservas",routReserva);
 
 const PORT = process.env.PORT;
 

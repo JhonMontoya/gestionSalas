@@ -70,7 +70,7 @@ const updateSala = async (req, res) => {
       }
       sala.location = req.body.location || sala.location;
   
-      await sala.save();
+      reservas
       res.status(200).json({ mensaje: `${sala.name} actualizada correctamente` });
     } catch (error) {
       console.error(error);
