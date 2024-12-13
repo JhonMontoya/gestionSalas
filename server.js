@@ -8,7 +8,12 @@ const bodyParser = require('body-parser');
 const conectDB = require('./config/db');
 
 const routsUser = require('./routes/usuario');
+<<<<<<< HEAD
 const routRoom = require('./routes/sala');
+=======
+const routRoom = require('./routes/salaRouter');
+const routReserva = require("./routes/reserva");
+>>>>>>> main
 
 dotnev.config();
 
@@ -22,6 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true}));
 app.use('/usuarios', routsUser);
 app.use('/salas', routRoom);
+app.use("/reservas",routReserva);
 
 const PORT = process.env.PORT;
 
